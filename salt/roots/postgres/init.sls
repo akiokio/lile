@@ -50,7 +50,7 @@ create-db-user:
 create-db:
   postgres_database:
     - present
-    - name: Lile
+    - name: lile
     - db_user: postgres
     - db_password: '123456'
     - user: postgres

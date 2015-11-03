@@ -1,1 +1,0 @@
-{"virtualbox":{"/srv/salt":{"guestpath":"/srv/salt","hostpath":"/Users/akiokio/Projects/Lile/salt/roots","disabled":false},"/vagrant":{"guestpath":"/vagrant","hostpath":"/Users/akiokio/Projects/Lile","disabled":false}}}

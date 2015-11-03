@@ -9,5 +9,5 @@ base:
     - nginx
     - postgres
 #    - project #Enable this to customize your workflow, if you're not familiar with salt just disable
-#  'Lile-dev':
+#  'lile-dev':
 #    - local-project

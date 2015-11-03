@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
     config.vm.network :forwarded_port, guest: 8000, host: 8001  # local
     config.vm.network :forwarded_port, guest: 8888, host: 8888  # jasmine
     config.vm.network :forwarded_port, guest: 5432, host: 5432  # postgres
-    config.vm.hostname = "Lile-dev"
+    config.vm.hostname = "lile-dev"
     config.vm.network :private_network, ip: "192.168.13.40"
 
 
