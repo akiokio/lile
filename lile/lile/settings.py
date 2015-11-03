@@ -1,3 +1,5 @@
+__author__ = 'akiokio'
+# -*- coding: utf-8 -*-
 """
 Django settings for lile project.
 
@@ -39,9 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+THIRD_PARTY_APPS = ['django_ses',]
+
 LOCAL_APPS = ['mailer',]
 
-INSTALLED_APPS += LOCAL_APPS
+INSTALLED_APPS += THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -108,3 +112,32 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Custom settings below
+EMAIL_BACKEND = 'django_ses.SESBackend'
+
+# These are optional -- if they're set as environment variables they won't
+# need to be set here as well, for production use put these varialbles in a local_settings file or
+# the environment variables
+AWS_ACCESS_KEY_ID = 'YOUR-ACCESS-KEY-ID'
+AWS_SECRET_ACCESS_KEY = 'YOUR-SECRET-ACCESS-KEY'
+
+# Additionally, you can specify an optional region, like so:
+AWS_SES_REGION_NAME = 'us-west-2'
+AWS_SES_REGION_ENDPOINT = 'email.us-west-2.amazonaws.com'
+
+EMAIL_FROM_ADDR = 'akio@digitalakio.com'
+
+# Also send DKIM in the emails to avoid spam
+DKIM_DOMAIN = 'example.com'
+DKIM_PRIVATE_KEY = '''
+-----BEGIN RSA PRIVATE KEY-----
+xxxxxxxxxxx
+-----END RSA PRIVATE KEY-----
+'''
+
+try:
+    from local_settings import *
+except ImportError:
+    pass

@@ -1,3 +1,6 @@
+__author__ = 'akiokio'
+# -*- coding: utf-8 -*-
+
 from django.contrib import admin
 
 from mailer.models import Lead, Email, Queue, LeadContact
