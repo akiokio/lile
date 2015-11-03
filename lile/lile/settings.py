@@ -130,12 +130,12 @@ AWS_SES_REGION_ENDPOINT = 'email.us-west-2.amazonaws.com'
 EMAIL_FROM_ADDR = 'akio@digitalakio.com'
 
 # Also send DKIM in the emails to avoid spam
-DKIM_DOMAIN = 'example.com'
-DKIM_PRIVATE_KEY = '''
------BEGIN RSA PRIVATE KEY-----
-xxxxxxxxxxx
------END RSA PRIVATE KEY-----
-'''
+#DKIM_DOMAIN = 'example.com'
+#DKIM_PRIVATE_KEY = '''
+#-----BEGIN RSA PRIVATE KEY-----
+#xxxxxxxxxxx
+#-----END RSA PRIVATE KEY-----
+#'''
 
 try:
     from local_settings import *
