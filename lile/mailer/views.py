@@ -10,22 +10,19 @@ from mailer.forms import LeadListForm
 from mailer.models import Lead
 
 
-class MailerHome(FormView):
-    template_name = 'mailer_home.html'
+class MailerImport(FormView):
+    template_name = 'mailer_import.html'
     form_class = LeadListForm
     success_url = 'queue/'
 
     def handle_file(self, leadListFile):
         reader = csv.DictReader(leadListFile)
-        leadArray = []
         for row in reader:
-            leadArray.append(Lead.objects.update_or_create(email=row['email'], first_name=row['first_name'], last_name=row['last_name']))
-        # bulk create can not create or update
-        #Lead.objects.bulk_create(leadArray)
+            Lead.objects.update_or_create(email=row['email'], first_name=row['first_name'], last_name=row['last_name'])
 
     def form_valid(self, form):
         self.handle_file(self.request.FILES.get('leadList'))
-        return super(MailerHome, self).form_valid(form)
+        return super(MailerImport, self).form_valid(form)
 
 
 class MailerQueue(ListView):
