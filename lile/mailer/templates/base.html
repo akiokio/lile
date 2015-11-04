@@ -1,0 +1,65 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Basic Page Needs
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta charset="utf-8">
+    <title>{% block title %}Title{% endblock %}</title>
+    {% block extra_css %}{% endblock %}
+    <meta name="description" content="Lile the simple email sender">
+    <meta name="author" content="akiokio">
+
+    <!-- Mobile Specific Metas
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- FONT
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+    <!-- CSS
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/skeleton.css' %}">
+
+    <!-- Favicon
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
+
+</head>
+<body>
+
+<!-- Primary Page Layout
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<div class="container">
+    <div class="row">
+        <div class="twelve column" style="height: 50px;"></div>
+    </div>
+
+    <div class="row">
+        <div class="three columns">
+            <h1>Menu</h1>
+
+            <ul>
+                <li><a href="{% url 'mailer_home' %}">Import Lead List</a></li>
+                <li><a href="{% url 'mailer_queue' %}">List</a></li>
+                <li>Stats</li>
+                <li>Placeholder</li>
+            </ul>
+        </div>
+
+        <div class="nine columns">
+            {% block content %}{% endblock %}
+        </div>
+
+    </div>
+
+</div>
+
+{% block extra_js %}{% endblock %}
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>

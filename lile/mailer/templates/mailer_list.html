@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Lile Queue{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="twelve column"></div>
+        <div class="twelve column"><h1>Queue list</h1></div>
+        <div class="six column">
+            <strong>Total leads: </strong><em>{{ total_objects }}</em>
+            <ul>
+                {% for lead in object_list %}
+                    <li>{{ lead.email }} - {{ lead.first_name }} {{ lead.last_name }}</li>
+                {% empty %}
+                    <li>No leads.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if contacts.has_previous %}
+                    <a href="?page={{ object_list.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}
+                </span>
+
+                {% if object_list.has_next %}
+                    <a href="?page={{ object_list.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+{% endblock %}
