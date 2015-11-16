@@ -17,11 +17,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 
-from mailer.views import MailerImport, MailerQueue
+from mailer.views import MailerImport, MailerList
 
 from django.conf.urls import include, url
 
 urlpatterns = [
     url(r'^$', MailerImport.as_view(), name='mailer_import'),
-    url(r'^queue/$', MailerQueue.as_view(), name='mailer_queue'),
+    url(r'^list/$', MailerList.as_view(), name='mailer_list'),
 ]

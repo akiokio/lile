@@ -132,7 +132,7 @@ AWS_SECRET_ACCESS_KEY = 'YOUR-SECRET-ACCESS-KEY'
 AWS_SES_REGION_NAME = 'us-west-2'
 AWS_SES_REGION_ENDPOINT = 'email.us-west-2.amazonaws.com'
 
-EMAIL_FROM_ADDR = 'akio@digitalakio.com'
+EMAIL_FROM_ADDR = 'your@email.com'
 
 # Also send DKIM in the emails to avoid spam
 #DKIM_DOMAIN = 'example.com'
