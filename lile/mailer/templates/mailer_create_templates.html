@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Create new mail{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="twelve column"></div>
+        <div class="twelve column"><h1>Create new mail</h1></div>
+        <div class="twelve column" style="margin-top: 20px;">
+            <p>Insert available variables like this:
+                {% templatetag openvariable %} first_name {% templatetag closevariable %},
+                {% templatetag openvariable %} last_name {% templatetag closevariable %}</p>
+            <form action="" method="post">{% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Create" />
+            </form>
+        </div>
+    </div>
+{% endblock %}

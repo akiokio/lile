@@ -17,7 +17,7 @@
 
     <!-- FONT
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+{#    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">#}
 
     <!-- CSS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -44,7 +44,10 @@
 
             <ul>
                 <li><a href="{% url 'mailer_import' %}">Import Lead List</a></li>
-                <li><a href="{% url 'mailer_queue' %}">List</a></li>
+                <li><a href="{% url 'mailer_list' %}">List</a></li>
+                <li><a href="{% url 'mailer_create_templates' %}">Create email template</a></li>
+                <li><a href="{% url 'mailer_list_templates' %}">List email templates</a></li>
+                <li><a href="{% url 'mailer_create_queue' %}">Create email queue</a></li>
                 <li>Stats</li>
                 <li>Placeholder</li>
             </ul>

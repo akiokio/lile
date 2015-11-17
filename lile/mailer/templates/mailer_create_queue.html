@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Create mail queue{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="twelve column"></div>
+        <div class="twelve column"><h1>Create mail queue</h1></div>
+        <div class="twelve column" style="margin-top: 20px;">
+            <form action="" method="post">{% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Create" />
+            </form>
+        </div>
+    </div>
+{% endblock %}

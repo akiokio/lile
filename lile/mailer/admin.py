@@ -8,10 +8,11 @@ from mailer.models import Lead, Email, Queue, LeadContact
 class LeadsContactInline(admin.TabularInline):
 	model = Queue.recipients.through
 
+	extra = 0
+	max_num = 0
 
 class QueueAdmin(admin.ModelAdmin):
 	inlines = [LeadsContactInline,]
-
 
 admin.site.register(Lead)
 admin.site.register(Email)

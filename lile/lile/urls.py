@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.views.generic import RedirectView
 
 
 urlpatterns = [
+    url(r'^$', RedirectView.as_view(url="/mailer/", permanent=True)),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^mailer/', include('mailer.urls')),
+    url(r'^mailer/', include('mailer.urls'), name="mailer_urls"),
     url(r'^admin/django-ses/', include('django_ses.urls')),
 ]

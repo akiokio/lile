@@ -18,8 +18,8 @@ class CreationMixin(models.Model):
 
 
 class Lead(CreationMixin):
-    REGISTERED = 1
-    OPTOUT = 2
+    REGISTERED = '1'
+    OPTOUT = '2'
 
     LEAD_STATUS = (
         (REGISTERED, 'Registered'),

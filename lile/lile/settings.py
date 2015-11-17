@@ -123,8 +123,7 @@ MEDIA_URL = '/media/'
 EMAIL_BACKEND = 'django_ses.SESBackend'
 
 # These are optional -- if they're set as environment variables they won't
-# need to be set here as well, for production use put these varialbles in a local_settings file or
-# the environment variables
+# need to be set here as well, never push your keys to a public repository to avoid key leak
 AWS_ACCESS_KEY_ID = 'YOUR-ACCESS-KEY-ID'
 AWS_SECRET_ACCESS_KEY = 'YOUR-SECRET-ACCESS-KEY'
 

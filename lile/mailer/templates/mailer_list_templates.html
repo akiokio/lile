@@ -1,26 +1,26 @@
 {% extends 'base.html' %}
 
-{% block title %}Lile Queue{% endblock %}
+{% block title %}List mail templates{% endblock %}
 
 
 {% block content %}
     <div class="row">
         <div class="twelve column"></div>
-        <div class="twelve column"><h1>Lead list</h1></div>
+        <div class="twelve column"><h1>List mail templates</h1></div>
         <div class="six column">
-            <strong>Total leads: </strong><em>{{ total_objects }}</em>
+            <strong>Total templates: </strong><em>{{ total_objects }}</em>
             <ul>
-                {% for lead in object_list %}
-                    <li>{{ lead.email }} - {{ lead.first_name }} {{ lead.last_name }}</li>
+                {% for template in object_list %}
+                    <li>{{ template.title }}</li>
                 {% empty %}
-                    <li>No leads.</li>
+                    <li>No templates.</li>
                 {% endfor %}
             </ul>
         </div>
 
         <div class="pagination">
             <span class="step-links">
-                {% if object_list.has_previous %}
+                {% if contacts.has_previous %}
                     <a href="?page={{ object_list.previous_page_number }}">previous</a>
                 {% endif %}
 
