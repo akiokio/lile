@@ -67,3 +67,6 @@ target/
 
 # Local Settings
 local_settings.py
+
+# Misc stuff
+Material/
