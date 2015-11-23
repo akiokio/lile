@@ -91,19 +91,19 @@ class LeadContact(CreationMixin):
 
 
     def send(self, from_addr=None):
-        if isinstance(self.recepient.email, basestring):
-            toEmail = [self.recepient.email]
+        if isinstance(self.recipient.email, basestring):
+            toEmail = [self.recipient.email]
         else:
             toEmail = self.recepient.email
         if not from_addr:
             from_addr = getattr(settings, 'EMAIL_FROM_ADDR')
         msg = EmailMultiAlternatives(
-            self.email.title,
+            self.queue.email.title,
             self._text,
             from_addr,
             toEmail
         )
-        if self.email.content:
+        if self._html:
             msg.attach_alternative(self._html, 'text/html')
         try:
             msg.send()

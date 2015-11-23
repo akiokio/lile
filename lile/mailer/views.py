@@ -3,11 +3,9 @@ __author__ = 'akiokio'
 
 import csv
 
-from django.views.generic import TemplateView, FormView, ListView, CreateView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.core.urlresolvers import reverse
-
-from mailer.forms import LeadListForm, EmailForm, QueueForm
+from django.views.generic import FormView, ListView, CreateView
+from mailer.forms import LeadListForm, QueueForm
 from mailer.models import Lead, Email, LeadContact
 
 
@@ -48,10 +46,11 @@ class MailerList(ListView):
 
         return queryset
 
+
 class MailerCreateTemplates(CreateView):
     template_name = "mailer_create_templates.html"
     model = Email
-    fields = ["title", "content", "plain_content",]
+    fields = ["title", "content", "plain_content", ]
     success_url = '/mailer/template/create/'
 
 
@@ -75,6 +74,7 @@ class MailerListTemplates(ListView):
         except EmptyPage:
             queryset = paginator.page(paginator.num_pages)
         return queryset
+
 
 class MailerCreateQueue(FormView):
     template_name = "mailer_create_queue.html"
