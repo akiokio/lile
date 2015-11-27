@@ -4,9 +4,13 @@ __author__ = 'akiokio'
 import csv
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import FormView, ListView, CreateView
+from django.views.generic import FormView, ListView, CreateView, DetailView, View
+from django.shortcuts import render_to_response, redirect
+from django.contrib import messages
+from django.core import mail
+
 from mailer.forms import LeadListForm, QueueForm
-from mailer.models import Lead, Email, LeadContact
+from mailer.models import Lead, Email, LeadContact, Queue
 
 
 class MailerImport(FormView):
@@ -92,3 +96,44 @@ class MailerCreateQueue(FormView):
                 _text=form.cleaned_data["email"].plain_content,
             )
         return super(MailerCreateQueue, self).form_valid(form)
+
+
+class MailerQueueList(ListView):
+    template_name = "mailer_queue_list.html"
+    model = Queue
+
+    def get_context_data(self, **kwargs):
+        context = super(MailerQueueList, self).get_context_data(**kwargs)
+        context['total_objects'] = context['object_list'].paginator._get_count
+        return context
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = super(MailerQueueList, self).get_queryset()
+        paginator = Paginator(queryset, 25)
+        page = self.request.GET.get('page', 1)
+        try:
+            queryset = paginator.page(page)
+        except PageNotAnInteger:
+            queryset = paginator.page(1)
+        except EmptyPage:
+            queryset = paginator.page(paginator.num_pages)
+        return queryset
+
+
+class MailerQueueDetail(DetailView):
+    template_name = "mailer_queue_detail.html"
+    model = Queue
+
+
+class MailerQueueSend(View):
+    template_name = "mailer_queue_detail.html"
+
+    def post(self, request, *args, **kwargs):
+        queue = Queue.objects.get(pk=kwargs['pk'])
+
+        connection = mail.get_connection()   # Use default email connection, open only one connection
+        emailQueue = queue.getMessagesQueue()
+        connection.send_messages(emailQueue)
+
+        messages.add_message(request, messages.SUCCESS, 'Send process started')
+        return redirect('mailer_queue_detail', pk=kwargs['pk'])

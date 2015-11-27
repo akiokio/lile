@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Lile Queue Detail{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="twelve column"></div>
+        <div class="twelve column"><h1>Queue detail</h1></div>
+        <div class="six column">
+            <h4>{{ object.title }}</h4>
+            <hr>
+            <div>
+                <h5>Details:</h5>
+
+                <p><strong>Email</strong>: {{ object.email }}<br>
+                    <strong>Lead list count: </strong> {{ object.recipients.count }}</p>
+            </div>
+            <hr>
+            <form action="{% url 'mailer_queue_send' object.pk %}" method="post">{% csrf_token %}
+                <button type="submit" class="button-primary">SEND</button>
+                <pre>This will send the email</pre>
+            </form>
+        </div>
+    </div>
+{% endblock %}

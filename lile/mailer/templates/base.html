@@ -34,6 +34,13 @@
 <!-- Primary Page Layout
 –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 <div class="container">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
     <div class="row">
         <div class="twelve column" style="height: 50px;"></div>
     </div>
@@ -48,6 +55,7 @@
                 <li><a href="{% url 'mailer_create_templates' %}">Create email template</a></li>
                 <li><a href="{% url 'mailer_list_templates' %}">List email templates</a></li>
                 <li><a href="{% url 'mailer_create_queue' %}">Create email queue</a></li>
+                <li><a href="{% url 'mailer_queue_list' %}">List queues</a></li>
                 <li>Stats</li>
                 <li>Placeholder</li>
             </ul>

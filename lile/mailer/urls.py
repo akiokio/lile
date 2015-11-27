@@ -17,7 +17,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 
-from mailer.views import MailerImport, MailerList, MailerCreateTemplates, MailerListTemplates, MailerCreateQueue
+from mailer.views import MailerImport, MailerList, MailerCreateTemplates, MailerListTemplates, MailerCreateQueue, \
+    MailerQueueList, MailerQueueDetail, MailerQueueSend
 
 from django.conf.urls import include, url
 
@@ -27,4 +28,9 @@ urlpatterns = [
     url(r'^template/create/$', MailerCreateTemplates.as_view(), name='mailer_create_templates'),
     url(r'^template/list/$', MailerListTemplates.as_view(), name='mailer_list_templates'),
     url(r'^queue/create/$', MailerCreateQueue.as_view(), name='mailer_create_queue'),
+    url(r'^queue/list/$', MailerQueueList.as_view(), name='mailer_queue_list'),
+    url(r'^queue/detail/(?P<pk>[-\w]+)/$', MailerQueueDetail.as_view(), name='mailer_queue_detail'),
+
+
+    url(r'^queue/send/(?P<pk>[-\w]+)/$', MailerQueueSend.as_view(), name='mailer_queue_send'),
 ]

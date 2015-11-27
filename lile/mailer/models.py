@@ -4,6 +4,8 @@ __author__ = 'akiokio'
 from django.db import models
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 from django.template import Context, Template
 
 from smtplib import SMTPException
@@ -38,7 +40,7 @@ class Lead(CreationMixin):
 class Email(CreationMixin):
     title = models.CharField(max_length=500)
     content = models.TextField()
-    plain_content = models.TextField()
+    plain_content = models.TextField() #Lets depreciate this and make the plain content automatically
 
     def __unicode__(self):
         return self.title
@@ -53,13 +55,21 @@ class Queue(CreationMixin):
     def __unicode__(self):
         return self.title
 
+    def getMessagesQueue(self):
+        emailQueue = []
+
+        for leadContact in self.leadcontact_set.all():
+            emailQueue.append(leadContact.createMessage())
+
+        return emailQueue
+
 
 class LeadContact(CreationMixin):
-    PENDING = 1
-    SENT = 2
-    BOUNCED = 3
-    OPENED = 4
-    SEND_ERROR = 5
+    PENDING = '1'
+    SENT = '2'
+    BOUNCED = '3'
+    OPENED = '4'
+    SEND_ERROR = '5'
 
     LEAD_CONTACT_STATUS = (
         (PENDING, 'Pending'),
@@ -89,8 +99,7 @@ class LeadContact(CreationMixin):
         template = Template(self.email.content)
         self._text = template.render(Context(context))
 
-
-    def send(self, from_addr=None):
+    def createMessage(self, from_addr=None):
         if isinstance(self.recipient.email, basestring):
             toEmail = [self.recipient.email]
         else:
@@ -104,7 +113,17 @@ class LeadContact(CreationMixin):
             toEmail
         )
         if self._html:
-            msg.attach_alternative(self._html, 'text/html')
+            contextDict = Context({'clientName': self.recipient.first_name})
+            template = Template(self._html.encode('utf8'))
+            html_content = template.render(contextDict)
+            text_content = strip_tags(html_content) #this strips the html, so people will have the text as well.
+            msg.body = text_content
+            msg.attach_alternative(html_content, 'text/html')
+
+        return msg
+
+    def send(self, from_addr=None):
+        msg = self.createMessage(from_addr=from_addr)
         try:
             msg.send()
             self.status = 2
@@ -113,3 +132,4 @@ class LeadContact(CreationMixin):
             self.status = 5
             self.obs = e.message
         self.save()
+
