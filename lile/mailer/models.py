@@ -40,8 +40,7 @@ class Lead(CreationMixin):
 class Email(CreationMixin):
     title = models.CharField(max_length=500)
     content = models.TextField()
-    plain_content = models.TextField() #Lets depreciate this and make the plain content automatically
-
+    
     def __unicode__(self):
         return self.title
 
