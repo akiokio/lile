@@ -67,6 +67,7 @@ target/
 
 # Local Settings
 local_settings.py
+collected_static
 
 # Misc stuff
 Misc/
