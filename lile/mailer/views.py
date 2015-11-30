@@ -86,17 +86,19 @@ class MailerCreateQueue(FormView):
     form_class = QueueForm
     success_url = "/mailer/queue/create/"
 
-    @transaction.atomic
+    # @transaction.atomic
     def form_valid(self, form):
         form.instance.save()
         queue = form.instance
+        leadList = []
         for lead in form.cleaned_data["recipients"]:
-            LeadContact.objects.create(
+            leadList.append(LeadContact(
                 queue=queue,
                 recipient=lead,
                 _html=form.cleaned_data["email"].content,
                 _text=form.cleaned_data["email"].plain_content,
-            )
+            ))
+        LeadContact.objects.bulk_create(leadList)
         return super(MailerCreateQueue, self).form_valid(form)
 
 
