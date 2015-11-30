@@ -47,7 +47,15 @@ class Email(CreationMixin):
 
 
 class Queue(CreationMixin):
+    PENDING = '1'
+    SENT = '2'
+    LEAD_CONTACT_STATUS = (
+        (PENDING, 'Pending'),
+        (SENT, 'Sent'),
+    )
+
     title = models.CharField(max_length=254)
+    status = models.CharField(max_length=254, choices=LEAD_CONTACT_STATUS, default=1)
 
     email = models.ForeignKey(Email)
     recipients = models.ManyToManyField(Lead, through='LeadContact')
@@ -106,19 +114,19 @@ class LeadContact(CreationMixin):
             toEmail = self.recepient.email
         if not from_addr:
             from_addr = getattr(settings, 'EMAIL_FROM_ADDR')
+
+        contextDict = Context({'clientName': self.recipient.first_name})
+        template = Template(self._html.encode('utf8'))
+        html_content = template.render(contextDict)
+        text_content = strip_tags(html_content) #this strips the html, so people will have the text as well.
+
         msg = EmailMultiAlternatives(
             self.queue.email.title,
-            self._text,
+            text_content,
             from_addr,
             toEmail
         )
-        if self._html:
-            contextDict = Context({'clientName': self.recipient.first_name})
-            template = Template(self._html.encode('utf8'))
-            html_content = template.render(contextDict)
-            text_content = strip_tags(html_content) #this strips the html, so people will have the text as well.
-            msg.body = text_content
-            msg.attach_alternative(html_content, 'text/html')
+        msg.attach_alternative(html_content, 'text/html')
 
         return msg
 
