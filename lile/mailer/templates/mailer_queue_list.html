@@ -11,7 +11,7 @@
             <strong>Total queues: </strong><em>{{ total_objects }}</em>
             <ul>
                 {% for queue in object_list %}
-                    <li><a href="{% url 'mailer_queue_detail' queue.pk %}">{{ queue.title }} - #{{ queue.recipients.count }} Contacts</a></li>
+                    <li><a href="{% url 'mailer_queue_detail' queue.pk %}">{{ queue.title }} - #{{ queue.recipients.count }} Contacts - Status: {{ queue.get_status_display }}</a></li>
                 {% empty %}
                     <li>No leads.</li>
                 {% endfor %}
