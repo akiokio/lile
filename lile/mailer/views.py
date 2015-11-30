@@ -90,15 +90,17 @@ class MailerCreateQueue(FormView):
     def form_valid(self, form):
         form.instance.save()
         queue = form.instance
-        leadList = []
+
+        transaction.set_autocommit(False)
         for lead in form.cleaned_data["recipients"]:
-            leadList.append(LeadContact(
+            LeadContact.objects.create(
                 queue=queue,
                 recipient=lead,
                 _html=form.cleaned_data["email"].content,
                 _text=form.cleaned_data["email"].plain_content,
-            ))
-        LeadContact.objects.bulk_create(leadList)
+            )
+        transaction.commit()
+        transaction.set_autocommit(True)
         return super(MailerCreateQueue, self).form_valid(form)
 
 
