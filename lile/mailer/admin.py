@@ -6,8 +6,9 @@ from mailer.models import Lead, Email, Queue, LeadContact
 
 
 class LeadAdmin(admin.ModelAdmin):
-    search_fields = ['email', 'first_name', 'last_name']
-    list_display = ['email', 'first_name', 'last_name']
+    search_fields = ['email', 'first_name', 'last_name', 'status']
+    list_display = ['email', 'first_name', 'last_name', 'status']
+    list_filter = ['status',]
 
 class LeadsContactInline(admin.TabularInline):
     model = Queue.recipients.through

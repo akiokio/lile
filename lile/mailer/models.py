@@ -67,7 +67,8 @@ class Queue(CreationMixin):
         emailQueue = []
 
         for leadContact in self.leadcontact_set.all():
-            emailQueue.append(leadContact.createMessage())
+            if leadContact.status == Lead.REGISTERED:
+                emailQueue.append(leadContact.createMessage())
 
         return emailQueue
 

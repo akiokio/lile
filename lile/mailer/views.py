@@ -91,17 +91,20 @@ class MailerCreateQueue(FormView):
     def form_valid(self, form):
         form.instance.save()
         queue = form.instance
-
-        transaction.set_autocommit(False)
+        leadList = []
+        # transaction.set_autocommit(False)
         for lead in form.cleaned_data["recipients"]:
-            LeadContact.objects.create(
-                queue=queue,
-                recipient=lead,
-                _html=form.cleaned_data["email"].content,
-                _text=form.cleaned_data["email"].plain_content,
-            )
-        transaction.commit()
-        transaction.set_autocommit(True)
+            if lead.status == Lead.REGISTERED:
+                leadList.append(LeadContact(
+                    queue=queue,
+                    recipient=lead,
+                    _html=form.cleaned_data["email"].content,
+                    _text=form.cleaned_data["email"].plain_content,
+                ))
+
+        LeadContact.objects.bulk_create(leadList)
+        # transaction.commit()
+        # transaction.set_autocommit(True)
         return super(MailerCreateQueue, self).form_valid(form)
 
 
@@ -156,5 +159,4 @@ def MailerUnsubscribe(request, *args, **kwargs):
         context = {
             'first_name': user.first_name
         }
-        print(context)
         return render_to_response('mailer_unsubscribe_success.html', context)
