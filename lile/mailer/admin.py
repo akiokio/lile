@@ -17,7 +17,7 @@ class LeadsContactInline(admin.TabularInline):
 
 
 class QueueAdmin(admin.ModelAdmin):
-    inlines = [LeadsContactInline, ]
+    # inlines = [LeadsContactInline, ]
     search_fields = ['title', 'status']
     list_display = ['title', 'status']
 

@@ -8,6 +8,7 @@ from django.views.generic import FormView, ListView, CreateView, DetailView, Vie
 from django.shortcuts import render_to_response, redirect
 from django.contrib import messages
 from django.core import mail
+from django.db import transaction
 
 from mailer.forms import LeadListForm, QueueForm
 from mailer.models import Lead, Email, LeadContact, Queue
@@ -85,6 +86,7 @@ class MailerCreateQueue(FormView):
     form_class = QueueForm
     success_url = "/mailer/queue/create/"
 
+    @transaction.atomic
     def form_valid(self, form):
         form.instance.save()
         queue = form.instance
