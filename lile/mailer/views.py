@@ -54,7 +54,7 @@ class MailerList(ListView):
 class MailerCreateTemplates(CreateView):
     template_name = "mailer_create_templates.html"
     model = Email
-    fields = ["title", "content", "plain_content", ]
+    fields = ["title", "content", ]
     success_url = '/mailer/template/create/'
 
 
@@ -135,5 +135,7 @@ class MailerQueueSend(View):
         emailQueue = queue.getMessagesQueue()
         connection.send_messages(emailQueue)
 
+        queue.status = Queue.SENT
+        queue.save()
         messages.add_message(request, messages.SUCCESS, 'Send process started')
         return redirect('mailer_queue_detail', pk=kwargs['pk'])

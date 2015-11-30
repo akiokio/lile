@@ -98,14 +98,13 @@ class LeadContact(CreationMixin):
     def __unicode__(self):
         return '%s - %s' % (self.queue, self.recipient)
 
-    def html(self, template, context):
-        template = Template(self.email.content)
-        self._html = template.render(Context(context))
+    def html(self, context):
+        template = Template(self._html)
+        return template.render(Context(context))
 
-
-    def text(self, template, context):
-        template = Template(self.email.content)
-        self._text = template.render(Context(context))
+    def text(self, context):
+        template = Template(self._text)
+        return strip_tags(template.render(Context(context)))
 
     def createMessage(self, from_addr=None):
         if isinstance(self.recipient.email, basestring):
@@ -116,17 +115,14 @@ class LeadContact(CreationMixin):
             from_addr = getattr(settings, 'EMAIL_FROM_ADDR')
 
         contextDict = Context({'clientName': self.recipient.first_name})
-        template = Template(self._html.encode('utf8'))
-        html_content = template.render(contextDict)
-        text_content = strip_tags(html_content) #this strips the html, so people will have the text as well.
 
         msg = EmailMultiAlternatives(
             self.queue.email.title,
-            text_content,
+            self.text(contextDict),
             from_addr,
             toEmail
         )
-        msg.attach_alternative(html_content, 'text/html')
+        msg.attach_alternative(self.html(contextDict), 'text/html')
 
         return msg
 

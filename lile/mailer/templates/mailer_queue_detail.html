@@ -13,8 +13,11 @@
             <div>
                 <h5>Details:</h5>
 
-                <p><strong>Email</strong>: {{ object.email }}<br>
-                    <strong>Lead list count: </strong> {{ object.recipients.count }}</p>
+                <p>
+                    <strong>Email</strong>: {{ object.email }}<br>
+                    <strong>Lead list count: </strong> {{ object.recipients.count }}<br>
+                    <strong>Status: </strong> {{ object.get_status_display }}
+                </p>
             </div>
             <hr>
             <form action="{% url 'mailer_queue_send' object.pk %}" method="post">{% csrf_token %}
