@@ -9,6 +9,7 @@ from django.shortcuts import render_to_response, redirect
 from django.contrib import messages
 from django.core import mail
 from django.db import transaction
+from django.views.decorators.csrf import csrf_exempt
 
 from mailer.forms import LeadListForm, QueueForm
 from mailer.models import Lead, Email, LeadContact, Queue
@@ -145,3 +146,15 @@ class MailerQueueSend(View):
         queue.save()
         messages.add_message(request, messages.SUCCESS, 'Send process started')
         return redirect('mailer_queue_detail', pk=kwargs['pk'])
+
+@csrf_exempt
+def MailerUnsubscribe(request, *args, **kwargs):
+    if request.method == "POST":
+        user = Lead.objects.get(email=request.POST.get('email'))
+        user.status = Lead.OPTOUT
+        user.save()
+        context = {
+            'first_name': user.first_name
+        }
+        print(context)
+        return render_to_response('mailer_unsubscribe_success.html', context)

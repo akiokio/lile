@@ -18,7 +18,7 @@ Including another URLconf
 """
 
 from mailer.views import MailerImport, MailerList, MailerCreateTemplates, MailerListTemplates, MailerCreateQueue, \
-    MailerQueueList, MailerQueueDetail, MailerQueueSend
+    MailerQueueList, MailerQueueDetail, MailerQueueSend, MailerUnsubscribe
 
 from django.conf.urls import include, url
 
@@ -33,4 +33,5 @@ urlpatterns = [
 
 
     url(r'^queue/send/(?P<pk>[-\w]+)/$', MailerQueueSend.as_view(), name='mailer_queue_send'),
+    url(r'^unsubscribe/$', MailerUnsubscribe, name='mailer_unsubscribe'),
 ]
