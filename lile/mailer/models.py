@@ -68,8 +68,7 @@ class Queue(CreationMixin):
         leadList = self.leadcontact_set.iterator()
 
         for leadContact in leadList:
-            if leadContact.status == Lead.REGISTERED:
-                emailQueue.append(leadContact.createMessage())
+            emailQueue.append(leadContact.createMessage())
 
         print('finished ')
         return emailQueue
