@@ -40,7 +40,7 @@ class Lead(CreationMixin):
 class Email(CreationMixin):
     title = models.CharField(max_length=500)
     content = models.TextField()
-    
+
     def __unicode__(self):
         return self.title
 
@@ -64,11 +64,14 @@ class Queue(CreationMixin):
 
     def getMessagesQueue(self):
         emailQueue = []
+        # leadList = self.leadcontact_set.filter(status=Lead.REGISTERED).values('id', 'recipient__email','_html', 'queue__email__title')
+        leadList = self.leadcontact_set.iterator()
 
-        for leadContact in self.leadcontact_set.all():
+        for leadContact in leadList:
             if leadContact.status == Lead.REGISTERED:
                 emailQueue.append(leadContact.createMessage())
 
+        print('finished ')
         return emailQueue
 
 

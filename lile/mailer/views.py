@@ -99,10 +99,10 @@ class MailerCreateQueue(FormView):
                     queue=queue,
                     recipient=lead,
                     _html=form.cleaned_data["email"].content,
-                    _text=form.cleaned_data["email"].plain_content,
+                    _text=form.cleaned_data["email"].content,
                 ))
 
-        LeadContact.objects.bulk_create(leadList)
+        LeadContact.objects.bulk_create(leadList, batch_size=1000)
         # transaction.commit()
         # transaction.set_autocommit(True)
         return super(MailerCreateQueue, self).form_valid(form)
@@ -140,11 +140,10 @@ class MailerQueueSend(View):
 
     def post(self, request, *args, **kwargs):
         queue = Queue.objects.get(pk=kwargs['pk'])
-
         connection = mail.get_connection()   # Use default email connection, open only one connection
         emailQueue = queue.getMessagesQueue()
         connection.send_messages(emailQueue)
-
+        print(emailQueue.length)
         queue.status = Queue.SENT
         queue.save()
         messages.add_message(request, messages.SUCCESS, 'Send process started')
