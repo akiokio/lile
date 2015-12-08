@@ -1,7 +1,10 @@
 Django==1.8.5
 argparse==1.2.1
 boto==2.38.0
+django-debug-toolbar==1.4
 django-ses==0.7.0
 dkimpy==0.5.4
 psycopg2==2.6.1
+pytz==2015.7
+sqlparse==0.1.18
 wsgiref==0.1.2
