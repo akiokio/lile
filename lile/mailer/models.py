@@ -62,15 +62,12 @@ class Queue(CreationMixin):
     def __unicode__(self):
         return self.title
 
-    def getMessagesQueue(self):
+    def getMessagesQueue(self, init=None, end=None):
         emailQueue = []
-        # leadList = self.leadcontact_set.filter(status=Lead.REGISTERED).values('id', 'recipient__email','_html', 'queue__email__title')
-        leadList = self.leadcontact_set.iterator()
-
+        leadList = self.leadcontact_set.filter(status=Lead.REGISTERED)[init:end]
+        from_addr = getattr(settings, 'EMAIL_FROM_ADDR')
         for leadContact in leadList:
-            emailQueue.append(leadContact.createMessage())
-
-        print('finished ')
+            emailQueue.append(leadContact.createMessage(from_addr))
         return emailQueue
 
 
@@ -108,13 +105,11 @@ class LeadContact(CreationMixin):
         template = Template(self._text)
         return strip_tags(template.render(Context(context)))
 
-    def createMessage(self, from_addr=None):
+    def createMessage(self, from_addr):
         if isinstance(self.recipient.email, basestring):
             toEmail = [self.recipient.email]
         else:
             toEmail = self.recepient.email
-        if not from_addr:
-            from_addr = getattr(settings, 'EMAIL_FROM_ADDR')
 
         contextDict = Context({'clientName': self.recipient.first_name})
 

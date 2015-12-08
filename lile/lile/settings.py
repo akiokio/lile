@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-THIRD_PARTY_APPS = ['django_ses',]
+THIRD_PARTY_APPS = ['django_ses','debug_toolbar',]
 
 LOCAL_APPS = ['mailer',]
 

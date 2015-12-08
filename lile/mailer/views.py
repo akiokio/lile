@@ -141,9 +141,14 @@ class MailerQueueSend(View):
     def post(self, request, *args, **kwargs):
         queue = Queue.objects.get(pk=kwargs['pk'])
         connection = mail.get_connection()   # Use default email connection, open only one connection
-        emailQueue = queue.getMessagesQueue()
-        connection.send_messages(emailQueue)
-        print(emailQueue.length)
+        leadList = queue.leadcontact_set.all()
+        iterateBy = 500
+        for initRange in xrange(0, leadList.count(), iterateBy):
+            endRange = initRange + (iterateBy - 1)
+            # print('Init at: %s, End at: %s' % (initRange, endRange))
+            messagesToSend = queue.getMessagesQueue(init=initRange, end=endRange)
+            # print('Generated %s messages' % len(messagesToSend))
+            connection.send_messages(messagesToSend)
         queue.status = Queue.SENT
         queue.save()
         messages.add_message(request, messages.SUCCESS, 'Send process started')
